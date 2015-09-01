@@ -40,12 +40,20 @@ app.controller('ListCtrl', function($scope) {
 
 // Setting up the view states and services
 app.config(function($stateProvider, $urlRouterProvider) {
+
+  // list state
   $stateProvider.state('list', {
     url: '/list',
     templateUrl: 'templates/list.html'
   });
 
-  // If no other route is given then you will be redirected to /list 
+  // edit state
+  $stateProvider.state('edit', {
+    url: '/edit',
+    templateUrl: 'templates/edit.html'
+  });
+
+  // If no other route is given then you will be redirected to /list
   $urlRouterProvider.otherwise('/list');
 });
 
