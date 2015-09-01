@@ -1,6 +1,13 @@
 <!-- edit item view template  -->
 <ion-view view-title="Edit Note">
   <ion-content ng-controller="EditCtrl">
-    bob boblaw {{note.title}}
+    <div class="list card">
+      <div class="item item-input">
+        <input type="text" value="{{note.title}}">
+      </div>
+      <div class="item item-input">
+        <textarea rows="8">{{note.description}}</textarea>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
