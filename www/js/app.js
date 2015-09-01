@@ -80,7 +80,13 @@
 
   // Controller for edit
   app.controller('EditCtrl', function($scope, $state) {
-    $scope.note = getNote($state.params.noteId);
+    /* Would update original note not matter what
+    // $scope.note = getNote($state.params.noteId);
+    */
+
+    // Makes a copy of the note item so no changes will happen to the original note item
+    $scope.note = angular.copy(getNote($state.params.noteId));
+
   });
 
   app.run(function($ionicPlatform) {
