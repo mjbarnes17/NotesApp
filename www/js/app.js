@@ -7,37 +7,6 @@
 // Store the angular.module in app
 var app = angular.module('starter', ['ionic']);
 
-// Controller for listing notes
-app.controller('ListCtrl', function($scope) {
-  // list of notes
-  $scope.notes = [
-    {
-      title: 'Note Title 1',
-      description: 'This is the description for Note 1'
-    },
-    {
-      title: 'Note Title 2',
-      description: 'This is the description for Note 2'
-    },
-    {
-      title: 'Note Title 3',
-      description: 'This is the description for Note 3'
-    },
-    {
-      title: 'Note Title 4',
-      description: 'This is the description for Note 4'
-    },
-    {
-      title: 'Note Title 5',
-      description: 'This is the description for Note 5'
-    },
-    {
-      title: 'Note Title 6',
-      description: 'This is the description for Note 6'
-    }
-  ];
-});
-
 // Setting up the view states and services
 app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -49,13 +18,52 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   // edit state
   $stateProvider.state('edit', {
-    url: '/edit',
+    url: '/edit/:noteId',
     templateUrl: 'templates/edit.html'
   });
 
   // If no other route is given then you will be redirected to /list
   $urlRouterProvider.otherwise('/list');
 });
+
+// Controller for listing notes
+app.controller('ListCtrl', function($scope) {
+  // list of notes
+  $scope.notes = [
+    {
+      id: '1',
+      title: 'Note Title 1',
+      description: 'This is the description for Note 1'
+    },
+    {
+      id: '2',
+      title: 'Note Title 2',
+      description: 'This is the description for Note 2'
+    },
+    {
+      id: '3',
+      title: 'Note Title 3',
+      description: 'This is the description for Note 3'
+    },
+    {
+      id: '4',
+      title: 'Note Title 4',
+      description: 'This is the description for Note 4'
+    },
+    {
+      id: '5',
+      title: 'Note Title 5',
+      description: 'This is the description for Note 5'
+    },
+    {
+      id: '6',
+      title: 'Note Title 6',
+      description: 'This is the description for Note 6'
+    }
+  ];
+});
+
+
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
