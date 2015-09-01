@@ -13,7 +13,6 @@ app.controller('ListCtrl', function($scope) {
   $scope.notes = [
     {
       title: 'Note Title 1',
-      author: 'Marcus',
       description: 'This is the description for Note 1'
     },
     {
@@ -37,6 +36,17 @@ app.controller('ListCtrl', function($scope) {
       description: 'This is the description for Note 6'
     }
   ];
+});
+
+// Setting up the view states and services
+app.config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider.state('list', {
+    url: '/list',
+    templateUrl: 'templates/list.html'
+  });
+
+  // If no other route is given then you will be redirected to /list 
+  $urlRouterProvider.otherwise('/list');
 });
 
 app.run(function($ionicPlatform) {
