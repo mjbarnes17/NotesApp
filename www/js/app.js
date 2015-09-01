@@ -72,6 +72,17 @@
     return undefined;
   }
 
+  // This will go through notes[] to find the matching id's
+  function updateNote(note) {
+    for (var i =0; i , notes.length; i++) {
+      if (notes[i].id === note.id) {
+        notes[i] = note;
+        return notes[i];
+      }
+    }
+    return undefined;
+  }
+
   // Controller for listing notes
   app.controller('ListCtrl', function($scope) {
     // list of notes
@@ -86,6 +97,13 @@
 
     // Makes a copy of the note item so no changes will happen to the original note item
     $scope.note = angular.copy(getNote($state.params.noteId));
+
+    // When saved the updateNote() is called on the note
+    // Then redirects back to /list
+    $scope.save = function() {
+      updateNote($scope.note);
+      $state.go('list');
+    };
 
   });
 
