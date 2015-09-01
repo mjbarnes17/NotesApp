@@ -21,7 +21,15 @@
     // edit state
     $stateProvider.state('edit', {
       url: '/edit/:noteId',
-      templateUrl: 'templates/edit.html'
+      templateUrl: 'templates/edit.html',
+      controller: 'EditCtrl'
+    });
+
+    // add state
+    $stateProvider.state('add', {
+      url: '/add',
+      templateUrl: 'templates/edit.html',
+      controller: 'AddCtrl'
     });
 
     // If no other route is given then you will be redirected to /list
@@ -83,6 +91,11 @@
     return undefined;
   }
 
+  // This will insert a new note in the notes[]
+  function createNote(note) {
+    notes.unshift(note);
+  }
+
   // Controller for listing notes
   app.controller('ListCtrl', function($scope) {
     // list of notes
@@ -104,7 +117,23 @@
       updateNote($scope.note);
       $state.go('list');
     };
+  });
 
+  // Controller for eadd
+  app.controller('AddCtrl', function($scope, $state) {
+    // Makes a copy of the note item so no changes will happen to the original note item
+    $scope.note = {
+      id: new Date().getTime.toString(),
+      title: '',
+      description: ''
+    };
+
+    // When saved the updateNote() is called on the note
+    // Then redirects back to /list
+    $scope.save = function() {
+      createNote($scope.note);
+      $state.go('list');
+    };
   });
 
   app.run(function($ionicPlatform) {
