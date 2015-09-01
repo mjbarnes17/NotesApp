@@ -36,40 +36,73 @@
     $urlRouterProvider.otherwise('/list');
   });
 
-  // Notes var accessible to both controllers
-  var notes = [
-    {
-      id: '1',
-      title: 'Note Title 1',
-      description: 'This is the description for Note 1'
-    },
-    {
-      id: '2',
-      title: 'Note Title 2',
-      description: 'This is the description for Note 2'
-    },
-    {
-      id: '3',
-      title: 'Note Title 3',
-      description: 'This is the description for Note 3'
-    },
-    {
-      id: '4',
-      title: 'Note Title 4',
-      description: 'This is the description for Note 4'
-    },
-    {
-      id: '5',
-      title: 'Note Title 5',
-      description: 'This is the description for Note 5'
-    },
-    {
-      id: '6',
-      title: 'Note Title 6',
-      description: 'This is the description for Note 6'
-    }
-  ];
+  // Custom service factory
+  app.factory('NoteStorage', function() {
 
+    // Notes var accessible to both controllers
+    var notes = [
+      {
+        id: '1',
+        title: 'Note Title 1',
+        description: 'This is the description for Note 1'
+      },
+      {
+        id: '2',
+        title: 'Note Title 2',
+        description: 'This is the description for Note 2'
+      },
+      {
+        id: '3',
+        title: 'Note Title 3',
+        description: 'This is the description for Note 3'
+      },
+      {
+        id: '4',
+        title: 'Note Title 4',
+        description: 'This is the description for Note 4'
+      },
+      {
+        id: '5',
+        title: 'Note Title 5',
+        description: 'This is the description for Note 5'
+      },
+      {
+        id: '6',
+        title: 'Note Title 6',
+        description: 'This is the description for Note 6'
+      }
+    ];
+    return {
+      list: function() {
+        return notes;
+      },
+
+      get: function(noteId) {
+        for (var i =0; i , notes.length; i++) {
+          if (notes[i].id === noteId) {
+            return notes[i];
+          }
+        }
+        return undefined;
+      },
+
+      create: function(note) {
+        notes.unshift(note);
+      },
+
+      update: function(note) {
+        for (var i =0; i , notes.length; i++) {
+          if (notes[i].id === note.id) {
+            notes[i] = note;
+            return notes[i];
+          }
+        }
+        return undefined;
+      }
+    };
+  });
+
+/*
   // This will go through notes[] to find the matching id's
   function getNote(noteId) {
     for (var i =0; i , notes.length; i++) {
@@ -95,32 +128,33 @@
   function createNote(note) {
     notes.unshift(note);
   }
+*/
 
   // Controller for listing notes
-  app.controller('ListCtrl', function($scope) {
+  app.controller('ListCtrl', function($scope, NoteStorage) {
     // list of notes
-    $scope.notes = notes;
+    $scope.notes = NoteStorage.list();
   });
 
   // Controller for edit
-  app.controller('EditCtrl', function($scope, $state) {
+  app.controller('EditCtrl', function($scope, $state, NoteStorage) {
     /* Would update original note not matter what
     // $scope.note = getNote($state.params.noteId);
     */
 
     // Makes a copy of the note item so no changes will happen to the original note item
-    $scope.note = angular.copy(getNote($state.params.noteId));
+    $scope.note = angular.copy(NoteStorage.get($state.params.noteId));
 
     // When saved the updateNote() is called on the note
     // Then redirects back to /list
     $scope.save = function() {
-      updateNote($scope.note);
+      NoteStorge.update($scope.note);
       $state.go('list');
     };
   });
 
   // Controller for eadd
-  app.controller('AddCtrl', function($scope, $state) {
+  app.controller('AddCtrl', function($scope, $state, NoteStorage) {
     // Makes a copy of the note item so no changes will happen to the original note item
     $scope.note = {
       id: new Date().getTime.toString(),
@@ -131,7 +165,7 @@
     // When saved the updateNote() is called on the note
     // Then redirects back to /list
     $scope.save = function() {
-      createNote($scope.note);
+      NoteStorage.create($scope.note);
       $state.go('list');
     };
   });
