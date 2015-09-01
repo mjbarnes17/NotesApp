@@ -1,35 +1,35 @@
-// Ionic Starter App
+// Self invoking anonymous function
+(function() {
+  // Ionic Starter App
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
+  // angular.module is a global place for creating, registering and retrieving Angular modules
+  // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+  // the 2nd parameter is an array of 'requires'
 
-// Store the angular.module in app
-var app = angular.module('starter', ['ionic']);
+  // Store the angular.module in app
+  var app = angular.module('starter', ['ionic']);
 
-// Setting up the view states and services
-app.config(function($stateProvider, $urlRouterProvider) {
+  // Setting up the view states and services
+  app.config(function($stateProvider, $urlRouterProvider) {
 
-  // list state
-  $stateProvider.state('list', {
-    url: '/list',
-    templateUrl: 'templates/list.html'
+    // list state
+    $stateProvider.state('list', {
+      url: '/list',
+      templateUrl: 'templates/list.html'
+    });
+
+    // edit state
+    $stateProvider.state('edit', {
+      url: '/edit/:noteId',
+      templateUrl: 'templates/edit.html'
+    });
+
+    // If no other route is given then you will be redirected to /list
+    $urlRouterProvider.otherwise('/list');
   });
 
-  // edit state
-  $stateProvider.state('edit', {
-    url: '/edit/:noteId',
-    templateUrl: 'templates/edit.html'
-  });
-
-  // If no other route is given then you will be redirected to /list
-  $urlRouterProvider.otherwise('/list');
-});
-
-// Controller for listing notes
-app.controller('ListCtrl', function($scope) {
-  // list of notes
-  $scope.notes = [
+  // Notes var accessible to both controllers
+  var notes = [
     {
       id: '1',
       title: 'Note Title 1',
@@ -61,19 +61,39 @@ app.controller('ListCtrl', function($scope) {
       description: 'This is the description for Note 6'
     }
   ];
-});
 
-
-
-app.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if(window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+  // This will go through notes[] to find the matching id's
+  function getNote(noteId) {
+    for (var i =0; i , notes.length; i++) {
+      if (notes[i].id === noteId) {
+        return notes[i];
+      }
     }
-    if(window.StatusBar) {
-      StatusBar.styleDefault();
-    }
+    return undefined;
+  }
+
+  // Controller for listing notes
+  app.controller('ListCtrl', function($scope) {
+    // list of notes
+    $scope.notes = notes;
   });
-});
+
+  // Controller for edit
+  app.controller('EditCtrl', function($scope, $state) {
+    $scope.note = getNote($state.params.noteId);
+  });
+
+  app.run(function($ionicPlatform) {
+    $ionicPlatform.ready(function() {
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if(window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      }
+      if(window.StatusBar) {
+        StatusBar.styleDefault();
+      }
+    });
+  });
+
+}());
