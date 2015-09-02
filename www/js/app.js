@@ -66,7 +66,7 @@
 
   // Controller for listing notes
   app.controller('ListCtrl', function($scope, NoteStorage) {
-    // list of notes
+    // list of notes using the NoteStorage service list property
     $scope.notes = NoteStorage.list();
   });
 
