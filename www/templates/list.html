@@ -1,7 +1,7 @@
 <!-- list items view template  -->
-<ion-view view-title="Your Notes">
-  <ion-content ng-controller="ListCtrl">
-    <ion-list show-reorder="true">
+<ion-view view-title="Your Notes" ng-controller="ListCtrl">
+  <ion-content>
+    <ion-list show-reorder="reordering">
       <ion-item class="item-remove-animate item-icon-right"
       href="#/edit/{{note.id}}"
       ng-repeat="note in notes track by note.id">
@@ -25,5 +25,7 @@
     href="#/add">
       Add Note
     </a>
+    <button class="button button-light ion-shuffle icon-left"
+    ng-click="toggleReordering()">Reorder</button>
   </div>
 </ion-view>

@@ -66,13 +66,28 @@
 
   // Controller for listing notes
   app.controller('ListCtrl', function($scope, NoteStorage) {
+
     // list of notes using the NoteStorage service list property
     $scope.notes = NoteStorage.list();
+
+    // Sets the reordering value to false
+    $scope.reordering = false;
 
     // Will remove a select not using the NoteStorage service remove property
     $scope.remove = function(noteId) {
       NoteStorage.remove(noteId);
     };
+
+    // Will move a selected note from the [] and place in a different index in the current  []
+    $scope.move = function(note, fromIndex, toIndex) {
+      NoteStorage.move(note, fromIndex, toIndex);
+    };
+
+    // Will negate the boolean value when toggleReordering() is called
+    $scope.toggleReordering = function() {
+      $scope.reordering = !$scope.reordering;
+    };
+
   });
 
   // Controller for edit
