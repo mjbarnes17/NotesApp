@@ -68,6 +68,11 @@
   app.controller('ListCtrl', function($scope, NoteStorage) {
     // list of notes using the NoteStorage service list property
     $scope.notes = NoteStorage.list();
+
+    // Will remove a select not using the NoteStorage service remove property
+    $scope.remove = function(noteId) {
+      NoteStorage.remove(noteId);
+    };
   });
 
   // Controller for edit

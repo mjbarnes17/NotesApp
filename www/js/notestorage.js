@@ -73,10 +73,21 @@ angular.module('notesapp.notestorage', [])
           if (notes[i].id === note.id) {
             notes[i] = note;
             localStore();
-            return notes[i];
+            return;
           }
         }
         return undefined;
+      },
+
+      // Removes the matched note by splicing it from the array
+      remove: function(noteId) {
+        for (var i = 0; i < notes.length; i++) {
+          if (notes[i].id === noteId) {
+            notes.splice(i, 1);
+            localStore();
+            return;
+          }
+        }
       }
     };
 });
