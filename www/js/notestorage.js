@@ -5,13 +5,13 @@ angular.module('notesapp.notestorage', [])
     // Notes var accessible to both controllers
     // Converts notes form json to an [] of {}'s
     // If notes is empty the an empty [] will be returned
-    var notes = [//angular.fromJson(window,localStorage.notes || '[]');
+    var notes = angular.fromJson(window.localStorage.notes || '[]');
     //
-    // // Setting up HTML5 local storage for notes
-    // function localSore() {
-    //   // Converts notes[] to json for local stoarage
-    //   window.localStorage.notes = angular.toJson(notes);
-    // }
+    // Setting up HTML5 local storage for notes
+    function localStore() {
+      // Converts notes[] to json for local stoarage
+      window.localStorage.notes = angular.toJson(notes);
+    }
      /*{
         id: '1',
         title: 'Note Title 1',
@@ -41,8 +41,8 @@ angular.module('notesapp.notestorage', [])
         id: '6',
         title: 'Note Title 6',
         description: 'This is the description for Note 6'
-      }*/
-    ];
+      }
+    ];*/
 
     // Returns properties
     return {
@@ -64,6 +64,7 @@ angular.module('notesapp.notestorage', [])
       // create($scope.note) will unsift($scope.note) to the top of the notes[]
       create: function(note) {
         notes.unshift(note);
+        localStore();
       },
 
       // update($scope.note) will match notes and set update the current notes data with new data
@@ -71,6 +72,7 @@ angular.module('notesapp.notestorage', [])
         for (var i = 0; i < notes.length; i++) {
           if (notes[i].id === note.id) {
             notes[i] = note;
+            localStore();
             return notes[i];
           }
         }
