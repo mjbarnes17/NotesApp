@@ -91,7 +91,7 @@
   app.controller('AddCtrl', function($scope, $state, NoteStorage) {
     // Makes a copy of the note item so no changes will happen to the original note item
     $scope.note = {
-      id: new Date().getTime.toString(),
+      id: new Date().getTime().toString(),
       title: '',
       description: ''
     };
